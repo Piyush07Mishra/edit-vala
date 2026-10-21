@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EditVala — Image Resizer & Editor</title>
+<style>
+:root{--bg:#f5f7fb;--panel:#fff;--ink:#172033;--muted:#738096;--line:#e4e9f1;--accent:#5b5ce2;--accent2:#7778ff;--soft:#eeefff;--shadow:0 12px 35px rgba(29,42,77,.07)}
+*{box-sizing:border-box}body{min-height:100vh;margin:0;display:flex;flex-direction:column;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input,select{font:inherit}button{cursor:pointer}.topbar{height:76px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 clamp(18px,4vw,56px);position:sticky;top:0;z-index:5}.brand{display:flex;align-items:center;gap:11px;font-weight:800;font-size:20px;letter-spacing:-.5px}.logo{width:36px;height:36px;border-radius:11px;background:linear-gradient(135deg,#5b5ce2,#9c6bff);display:grid;place-items:center;color:#fff;font-size:19px;box-shadow:0 5px 12px #7778ff55}.brand span{color:var(--accent)}.topnote{font-size:13px;color:var(--muted)}main{width:100%;max-width:1450px;margin:0 auto;flex:1;padding:32px clamp(16px,3vw,42px) 52px}.hero{display:flex;justify-content:space-between;align-items:flex-end;gap:18px;margin-bottom:26px}.eyebrow{text-transform:uppercase;color:var(--accent);font-size:11px;font-weight:800;letter-spacing:1.7px;margin-bottom:8px}.hero h1{font-size:clamp(28px,3vw,40px);letter-spacing:-1.5px;margin:0 0 8px}.hero p{margin:0;color:var(--muted);font-size:15px;line-height:1.6}.privacy{background:#eaf8f1;color:#24764f;padding:9px 13px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}.workspace{display:grid;grid-template-columns:minmax(0,1fr) 350px;gap:22px;align-items:start}.leftcol{min-width:0}.preview-card,.panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}.preview-head{display:flex;justify-content:space-between;align-items:center;padding:17px 20px;border-bottom:1px solid var(--line);gap:12px}.preview-head h2{font-size:15px;margin:0}.preview-meta{font-size:12px;color:var(--muted)}.preview-area{min-height:430px;padding:24px;display:flex;align-items:center;justify-content:center;position:relative;background-color:#fbfcff;background-image:linear-gradient(45deg,#eef1f7 25%,transparent 25%),linear-gradient(-45deg,#eef1f7 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#eef1f7 75%),linear-gradient(-45deg,transparent 75%,#eef1f7 75%);background-size:22px 22px;background-position:0 0,0 11px,11px -11px,-11px 0;border-radius:0 0 18px 18px;overflow:hidden}.empty-state{max-width:390px;text-align:center;padding:20px}.upload-icon{height:76px;width:76px;margin:0 auto 18px;border-radius:22px;background:var(--soft);color:var(--accent);display:grid;place-items:center;font-size:32px}.empty-state h3{margin:0 0 9px;font-size:20px}.empty-state p{color:var(--muted);font-size:13px;line-height:1.7;margin:0 0 20px}.primary{border:0;background:var(--accent);color:#fff;padding:12px 18px;border-radius:10px;font-weight:750;box-shadow:0 6px 14px #5b5ce233}.primary:hover{background:#4849ca}.secondary{border:1px solid var(--line);background:#fff;color:var(--ink);padding:9px 12px;border-radius:9px;font-weight:650}.secondary:hover{border-color:#b9bcf9;background:#fafaff}.preview-img{width:auto;max-width:100%;max-height:590px;object-fit:contain;image-orientation:from-image;display:none;filter:none;transform-origin:center;transition:filter .12s,transform .12s}.preview-area.has-image{min-height:320px}.preview-area.has-image .empty-state{display:none!important}.canvas-note{position:absolute;bottom:12px;right:14px;background:#ffffffee;border:1px solid var(--line);color:var(--muted);padding:6px 9px;border-radius:8px;font-size:11px;display:none}.toolrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.toolrow button{flex:1;min-width:90px}.panel{padding:0;overflow:hidden}.panel-head{padding:18px 20px;border-bottom:1px solid var(--line)}.panel-head h2{font-size:16px;margin:0 0 5px}.panel-head p{margin:0;color:var(--muted);font-size:12px}.panel-body{padding:18px 20px}.section{padding-bottom:19px;margin-bottom:19px;border-bottom:1px solid var(--line)}.section:last-child{border-bottom:0;margin-bottom:0;padding-bottom:0}.section-title{font-size:12px;text-transform:uppercase;letter-spacing:1px;font-weight:800;color:#69758a;margin:0 0 14px;display:flex;align-items:center;gap:8px}.section-title .num{display:grid;place-items:center;background:var(--soft);color:var(--accent);height:23px;width:23px;border-radius:7px;font-size:11px}.fieldrow{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{margin-bottom:12px}.field:last-child{margin-bottom:0}.field label{display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:700;margin-bottom:7px;color:#4d586b}.field input[type=number],.field select{width:100%;border:1px solid var(--line);background:#fbfcff;border-radius:9px;padding:10px 11px;color:var(--ink);outline:none}.field input:focus,.field select:focus{border-color:var(--accent2);box-shadow:0 0 0 3px #7778ff1c}.hint{font-size:11px;color:var(--muted);margin-top:7px;line-height:1.5}.checkline{display:flex;align-items:center;gap:8px;color:#4d586b;font-size:12px;margin-top:12px}.checkline input{accent-color:var(--accent);width:15px;height:15px}.mini-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.mini-actions button{padding:10px 3px;font-size:12px}.rangefield{margin:14px 0}.rangehead{display:flex;justify-content:space-between;font-size:12px;color:#4d586b;font-weight:650;margin-bottom:8px}.rangehead output{color:var(--accent);font-weight:800}.rangefield input{width:100%;accent-color:var(--accent)}.selectrow{display:grid;grid-template-columns:1fr 1fr;gap:10px}.download{width:100%;padding:14px;border:0;border-radius:11px;background:linear-gradient(135deg,#5b5ce2,#7778ff);color:white;font-weight:800;font-size:14px;box-shadow:0 8px 20px #5b5ce233}.download:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}.reset{width:100%;margin-top:9px}.status{font-size:12px;color:var(--muted);line-height:1.5;margin-top:10px;min-height:18px}.bottomline{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:20px;color:var(--muted);font-size:12px}.kbd{border:1px solid var(--line);background:white;border-radius:5px;padding:2px 6px}.footer{border-top:1px solid #d8d8f6;background:#fff;padding:28px clamp(18px,4vw,56px);color:var(--muted)}.footer-inner{max-width:1450px;margin:0 auto;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:28px}.footer h2,.footer h3{margin:0 0 8px;color:var(--ink)}.footer h2{font-size:18px}.footer h3{font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--accent)}.footer p{margin:0;font-size:13px;line-height:1.7}.footer a{color:var(--accent);font-weight:700;text-decoration:none}.footer a:hover{text-decoration:underline}.hidden{display:none!important}#fileInput{display:none}
+.mode-switch{display:flex;gap:8px;margin-bottom:16px;padding:5px;background:var(--soft);border-radius:11px}.mode-switch button{flex:1;border:0;background:transparent;color:#626c80;padding:10px 8px;border-radius:8px;font-size:12px;font-weight:750}.mode-switch button.active{background:#fff;color:var(--accent);box-shadow:0 3px 10px #5b5ce21c}.size-summary{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.size-summary div{padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:#fbfcff;font-size:11px;color:var(--muted)}.size-summary strong{display:block;color:var(--ink);font-size:12px;margin-top:3px}.size-options{display:flex;flex-wrap:wrap;gap:6px;margin:9px 0}.size-options button{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:7px;padding:7px 8px;font-size:11px}.size-options button:hover{border-color:var(--accent2);color:var(--accent)}.size-result{padding:10px;border-radius:9px;background:var(--soft);color:#4d586b;font-size:11px;line-height:1.5;margin-top:10px}.size-result strong{color:var(--accent)}.size-workflow .field{margin-bottom:10px}
+@media(max-width:950px){.workspace{grid-template-columns:1fr}.panel{order:2}.preview-area{min-height:340px}.panel-body{display:grid;grid-template-columns:1fr 1fr;gap:20px}.section{margin:0;padding:0 0 18px}.section:last-child{padding:0}.panel-head{padding:16px 20px}}
+@media(max-width:600px){.topbar{height:64px}.topnote{display:none}main{padding-top:22px}.hero{display:block}.privacy{display:inline-block;margin-top:14px}.preview-head{align-items:flex-start;flex-direction:column}.preview-area{min-height:280px;padding:14px}.panel-body{display:block}.section{margin-bottom:19px;padding-bottom:19px}.fieldrow{gap:8px}.mini-actions button{font-size:11px}.toolrow button{min-width:70px}.bottomline{display:block;line-height:1.8}.footer-inner{display:block}.footer-section{margin-bottom:22px}.footer-section:last-child{margin-bottom:0}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><div class="logo">◩</div>Edit<span>Vala</span></div>
+  <div class="topnote">Simple tools. Beautiful results.</div>
+</header>
+<main>
+  <section class="hero">
+    <div><div class="eyebrow">IMAGE WORKSPACE</div><h1>Resize. Rotate. Refine.</h1><p>Everything you need to edit an image, right in your browser.</p></div>
+    <div class="privacy">● Private by design · No upload required</div>
+  </section>
+  <div class="workspace">
+    <div class="leftcol">
+      <section class="preview-card">
+        <div class="preview-head"><h2>Image preview</h2><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end"><div class="preview-meta" id="imageMeta">No image selected</div><button class="secondary" id="changeImageBtn" type="button">＋ Select another image</button></div></div>
+        <div class="preview-area" id="dropZone">
+          <div class="empty-state" id="emptyState"><div class="upload-icon">↥</div><h3>Drop your image here</h3><p>or browse files on your device to get started.<br>Supports JPG, PNG, WebP, GIF and more.</p><button class="primary" id="browseBtn">Browse image</button></div>
+          <img id="previewImg" class="preview-img" alt="Edited image preview" />
+          <div class="canvas-note" id="canvasNote">Live preview</div>
+        </div>
+      </section>
+      <div class="toolrow">
+        <button class="secondary" id="rotateLeft" disabled>↶ Rotate left</button>
+        <button class="secondary" id="rotateRight" disabled>↷ Rotate right</button>
+        <button class="secondary" id="flipH" disabled>⇆ Flip horizontal</button>
+        <button class="secondary" id="flipV" disabled>⇅ Flip vertical</button>
+      </div>
+      <div class="bottomline"><span>Supported formats depend on your browser.</span><span>Tip: use <span class="kbd">Maintain ratio</span> to avoid distortion.</span></div>
+    </div>
+    <aside class="panel">
+      <div class="panel-head"><h2>Edit image</h2><p>Make precise adjustments to your image.</p></div>
+      <div class="panel-body">
+        <div class="mode-switch" role="tablist" aria-label="Editing mode">
+          <button id="pixelModeBtn" class="active" type="button" role="tab" aria-selected="true">Resize by Pixels</button>
+          <button id="sizeModeBtn" type="button" role="tab" aria-selected="false">Increase File Size</button>
+        </div>
+        <section class="section size-workflow hidden" id="sizeWorkflow">
+          <h3 class="section-title"><span class="num">1</span> File size target</h3>
+          <div class="fieldrow">
+            <div class="field"><label for="targetSize">Target size</label><input id="targetSize" type="number" min="1" max="1024" step="1" value="100" disabled></div>
+            <div class="field"><label for="targetUnit">Unit</label><select id="targetUnit" disabled><option value="KB">KB (1,024 bytes)</option><option value="MB">MB (1,048,576 bytes)</option></select></div>
+          </div>
+          <div class="size-options" aria-label="Common target sizes">
+            <button type="button" data-size="50" data-unit="KB">50 KB</button><button type="button" data-size="100" data-unit="KB">100 KB</button><button type="button" data-size="200" data-unit="KB">200 KB</button><button type="button" data-size="500" data-unit="KB">500 KB</button><button type="button" data-size="1" data-unit="MB">1 MB</button>
+          </div>
+          <div class="field"><label for="sizeMatchMode">Target behavior</label><select id="sizeMatchMode" disabled><option value="minimum">Reach at least target</option><option value="closest">Match as closely as possible</option></select></div>
+          <div class="field"><label for="sizeFormat">Output format</label><select id="sizeFormat" disabled><option value="image/jpeg">JPEG</option><option value="image/png">PNG</option><option value="image/webp">WebP</option></select></div>
+          <div class="size-summary"><div>Current file size<strong id="currentSize">—</strong></div><div>Original pixels<strong id="originalSizePixels">—</strong></div></div>
+          <label class="checkline"><input type="checkbox" id="allowUpscale" disabled> Allow limited upscaling if target cannot be reached</label>
+          <div class="hint">File size is measured from the encoded image bytes. PNG quality is not adjustable; no fake padding is added.</div>
+          <button class="download" id="increaseSizeBtn" type="button" disabled>Increase Size</button>
+          <div class="size-result" id="sizeResult">Measured output will appear here.</div>
+          <button class="secondary reset" id="sizeDownloadBtn" type="button" disabled>Download Image</button>
+        </section>
+        <section class="section" id="pixelDimensionsSection">
+          <h3 class="section-title"><span class="num">2</span> Dimensions</h3>
+          <div class="fieldrow">
+            <div class="field"><label for="widthInput">Width (px)</label><input id="widthInput" type="number" min="1" max="12000" placeholder="Width" disabled></div>
+            <div class="field"><label for="heightInput">Height (px)</label><input id="heightInput" type="number" min="1" max="12000" placeholder="Height" disabled></div>
+          </div>
+          <label class="checkline"><input type="checkbox" id="ratioCheck" checked disabled> Maintain aspect ratio</label>
+          <div class="hint" id="dimensionHint">Choose an image to edit its dimensions.</div>
+        </section>
+        <section class="section" id="adjustmentsSection">
+          <h3 class="section-title"><span class="num">3</span> Adjustments</h3>
+          <div class="rangefield"><div class="rangehead"><label for="brightness">Brightness</label><output id="brightnessVal">100%</output></div><input type="range" id="brightness" min="0" max="200" value="100" disabled></div>
+          <div class="rangefield"><div class="rangehead"><label for="contrast">Contrast</label><output id="contrastVal">100%</output></div><input type="range" id="contrast" min="0" max="200" value="100" disabled></div>
+          <div class="rangefield"><div class="rangehead"><label for="saturation">Saturation</label><output id="saturationVal">100%</output></div><input type="range" id="saturation" min="0" max="200" value="100" disabled></div>
+          <div class="rangefield"><div class="rangehead"><label for="grayscale">Grayscale</label><output id="grayscaleVal">0%</output></div><input type="range" id="grayscale" min="0" max="100" value="0" disabled></div>
+        </section>
+        <section class="section" id="exportSection">
+          <h3 class="section-title"><span class="num">4</span> Export settings</h3>
+          <div class="selectrow">
+            <div class="field"><label for="formatSelect">File format</label><select id="formatSelect" disabled><option value="image/png">PNG</option><option value="image/jpeg">JPEG</option><option value="image/webp">WebP</option></select></div>
+            <div class="field"><label for="quality">Quality</label><select id="quality" disabled><option value="0.95">High</option><option value="0.8">Good</option><option value="0.6">Smaller file</option></select></div>
+          </div>
+          <div class="hint">Quality applies to JPEG and WebP. PNG is exported losslessly.</div>
+        </section>
+        <section class="section">
+          <button class="download" id="downloadBtn" disabled>↓ &nbsp; Download edited image</button>
+          <button class="secondary reset" id="resetBtn" disabled>Reset edits</button>
+          <div class="status" id="status" aria-live="polite">Your image stays on your device.</div>
+        </section>
+      </div>
+    </aside>
+  </div>
+</main>
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-section">
+      <h2>EditVala</h2>
+      <p>Image editing made simple. Resize, rotate, and refine your images directly in your browser.</p>
+    </div>
+    <div class="footer-section">
+      <h3>Developer</h3>
+      <p>Piyush Mishra<br>Student, Vishwakarma Institute of Technology (VIT), Pune</p>
+    </div>
+    <div class="footer-section">
+      <h3>Contact</h3>
+      <p><a href="mailto:piyushjwalaprasadmishra@gmail.com">piyushjwalaprasadmishra@gmail.com</a></p>
+    </div>
+  </div>
+</footer>
+<input id="fileInput" type="file" accept="image/*">
+<script>
+(() => {
+ const $ = id => document.getElementById(id);
+ const fileInput=$('fileInput'), browseBtn=$('browseBtn'), changeImageBtn=$('changeImageBtn'), previewImg=$('previewImg'), emptyState=$('emptyState'), dropZone=$('dropZone');
+ const editable=['widthInput','heightInput','ratioCheck','brightness','contrast','saturation','grayscale','formatSelect','quality','downloadBtn','resetBtn','rotateLeft','rotateRight','flipH','flipV','targetSize','targetUnit','sizeMatchMode','sizeFormat','allowUpscale','increaseSizeBtn'];
+ let sourceImage=null, originalUrl=null, originalWidth=0, originalHeight=0, originalFileSize=0, rotation=0, flipX=1, flipY=1, lastDimension='width', loadToken=0, processedSizeBlob=null, processedSizeUrl=null;
+ const clamp=(n,min,max)=>Math.min(max,Math.max(min,n));
+ function setEnabled(enabled){editable.forEach(id=>$(id).disabled=!enabled);$('canvasNote').style.display=enabled?'block':'none';}
+ function resetAdjustments(){
+   rotation=0;flipX=1;flipY=1;
+   $('brightness').value=100;$('contrast').value=100;$('saturation').value=100;$('grayscale').value=0;
+   ['brightness','contrast','saturation'].forEach(id=>$(id+'Val').textContent='100%');$('grayscaleVal').textContent='0%';
+   $('widthInput').value=originalWidth;$('heightInput').value=originalHeight;$('ratioCheck').checked=true;
+   $('formatSelect').value='image/png';$('quality').value='0.95';clearSizeResult();updatePreview();updateDimensionsHint();
+ }
+ async function normalizeImage(rawUrl){
+   const image=await new Promise((resolve,reject)=>{
+     const raw=new Image();
+     raw.onload=()=>resolve(raw);raw.onerror=reject;raw.src=rawUrl;
+   });
+   // Modern browser decoders apply EXIF orientation to decoded pixels. Rasterizing
+   // those pixels once strips the metadata and prevents a second rotation on export.
+   const width=image.naturalWidth,height=image.naturalHeight,canvas=document.createElement('canvas');
+   canvas.width=width;canvas.height=height;
+   const ctx=canvas.getContext('2d');
+   if(!ctx)throw new Error('Canvas is not supported in this browser.');
+   ctx.drawImage(image,0,0,width,height);
+   const normalizedUrl=await new Promise((resolve,reject)=>canvas.toBlob(blob=>blob?resolve(URL.createObjectURL(blob)):reject(new Error('Image normalization failed.')),'image/png'));
+   return {normalizedUrl,width:canvas.width,height:canvas.height};
+ }
+ async function loadFile(file){
+   if(!file)return;
+   if(!file.type.startsWith('image/')){$('status').textContent='Please choose a valid image file.';return;}
+   const token=++loadToken,rawUrl=URL.createObjectURL(file);
+   try{
+     const normalized=await normalizeImage(rawUrl);
+     if(token!==loadToken){URL.revokeObjectURL(normalized.normalizedUrl);return;}
+     URL.revokeObjectURL(rawUrl);
+     if(originalUrl)URL.revokeObjectURL(originalUrl);
+     originalUrl=normalized.normalizedUrl;
+     const img=await new Promise((resolve,reject)=>{
+       const loaded=new Image();
+       loaded.onload=()=>resolve(loaded);loaded.onerror=reject;loaded.src=originalUrl;
+     });
+     sourceImage=img;originalWidth=normalized.width;originalHeight=normalized.height;
+     originalFileSize=file.size;
+     previewImg.src=originalUrl;
+     emptyState.style.display='none';previewImg.style.display='block';dropZone.classList.add('has-image');setEnabled(true);
+     $('imageMeta').textContent=`${originalWidth} × ${originalHeight} px · ${formatBytes(file.size)}`;
+     $('currentSize').textContent=formatBytes(file.size);$('originalSizePixels').textContent=`${originalWidth} × ${originalHeight}`;
+     clearSizeResult();
+     $('status').textContent=`Loaded ${file.name}. Ready to edit.`;resetAdjustments();
+   }catch(error){
+     URL.revokeObjectURL(rawUrl);
+     if(token===loadToken)$('status').textContent=error.message||'This image could not be opened. Try another file.';
+   }
+ }
+ function formatBytes(bytes){if(bytes<1024)return bytes+' B';if(bytes<1048576)return (bytes/1024).toFixed(1)+' KB';return (bytes/1048576).toFixed(2)+' MB';}
+ function dimensions(){
+   const w=clamp(parseInt($('widthInput').value)||originalWidth,1,12000);
+   const h=clamp(parseInt($('heightInput').value)||originalHeight,1,12000);
+   return {baseWidth:w,baseHeight:h,width:rotation%180!==0?h:w,height:rotation%180!==0?w:h};
+ }
+ function clearSizeResult(){
+   if(processedSizeUrl)URL.revokeObjectURL(processedSizeUrl);
+   processedSizeUrl=null;processedSizeBlob=null;$('sizeDownloadBtn').disabled=true;
+   $('sizeResult').textContent='Measured output will appear here.';
+ }
+ function setMode(sizeMode){
+   $('pixelModeBtn').classList.toggle('active',!sizeMode);$('sizeModeBtn').classList.toggle('active',sizeMode);
+   $('pixelModeBtn').setAttribute('aria-selected',String(!sizeMode));$('sizeModeBtn').setAttribute('aria-selected',String(sizeMode));
+   $('sizeWorkflow').classList.toggle('hidden',!sizeMode);
+   ['pixelDimensionsSection','adjustmentsSection','exportSection'].forEach(id=>$(id).classList.toggle('hidden',sizeMode));
+   if(sizeMode&&sourceImage){$('sizeResult').textContent='Choose a target and click Increase Size.';}
+   if(!sizeMode&&sourceImage)updatePreview();
+ }
+ function updateDimensionsHint(){if(!sourceImage)return;const output=dimensions();$('dimensionHint').textContent=`Original: ${originalWidth} × ${originalHeight} px · Output: ${output.width} × ${output.height} px`;}
+ function updatePreview(){
+   if(!sourceImage)return;
+   if(previewImg.dataset.processed==='true'){previewImg.src=originalUrl;delete previewImg.dataset.processed;}
+   previewImg.style.filter=`brightness(${$('brightness').value}%) contrast(${$('contrast').value}%) saturate(${$('saturation').value}%) grayscale(${$('grayscale').value}%)`;
+   previewImg.style.transform=`rotate(${rotation}deg) scale(${flipX},${flipY})`;
+   const availableWidth=Math.max(1,dropZone.clientWidth-48),availableHeight=Math.max(1,Math.min(dropZone.clientHeight,320)-48);
+   previewImg.style.maxWidth=`${rotation%180===0?availableWidth:availableHeight}px`;
+   previewImg.style.maxHeight=`${rotation%180===0?Math.min(590,availableHeight):availableWidth}px`;
+   updateDimensionsHint();
+ }
+ $('widthInput').addEventListener('input',()=>{lastDimension='width';if($('ratioCheck').checked){let w=clamp(Number($('widthInput').value)||1,1,12000);$('heightInput').value=Math.max(1,Math.round(w*originalHeight/originalWidth));}updatePreview();});
+ $('heightInput').addEventListener('input',()=>{lastDimension='height';if($('ratioCheck').checked){let h=clamp(Number($('heightInput').value)||1,1,12000);$('widthInput').value=Math.max(1,Math.round(h*originalWidth/originalHeight));}updatePreview();});
+ ['brightness','contrast','saturation','grayscale'].forEach(id=>$(id).addEventListener('input',()=>{$(id+'Val').textContent=$(id).value+'%';updatePreview();}));
+ $('ratioCheck').addEventListener('change',()=>{if($('ratioCheck').checked){if(lastDimension==='width')$('heightInput').value=Math.max(1,Math.round((Number($('widthInput').value)||originalWidth)*originalHeight/originalWidth));else $('widthInput').value=Math.max(1,Math.round((Number($('heightInput').value)||originalHeight)*originalWidth/originalHeight));updatePreview();}});
+ $('rotateLeft').addEventListener('click',()=>{rotation=(rotation-90+360)%360;updatePreview();});
+ $('rotateRight').addEventListener('click',()=>{rotation=(rotation+90)%360;updatePreview();});
+ $('flipH').addEventListener('click',()=>{flipX*=-1;updatePreview();});
+ $('flipV').addEventListener('click',()=>{flipY*=-1;updatePreview();});
+ window.addEventListener('resize',updatePreview);
+ function openPicker(){fileInput.value='';fileInput.click();}
+ browseBtn.addEventListener('click',openPicker);
+ changeImageBtn.addEventListener('click',openPicker);
+ fileInput.addEventListener('change',e=>loadFile(e.target.files[0]));
+ ['dragenter','dragover'].forEach(ev=>dropZone.addEventListener(ev,e=>{e.preventDefault();dropZone.style.outline='2px dashed #7778ff';}));
+ ['dragleave','drop'].forEach(ev=>dropZone.addEventListener(ev,e=>{e.preventDefault();dropZone.style.outline='none';}));
+ dropZone.addEventListener('drop',e=>loadFile(e.dataTransfer.files[0]));
+ $('resetBtn').addEventListener('click',resetAdjustments);
+ function createEditCanvas(baseWidth,baseHeight){
+   const output={baseWidth,baseHeight,width:rotation%180!==0?baseHeight:baseWidth,height:rotation%180!==0?baseWidth:baseHeight};
+   if(output.width*output.height>100000000)throw new Error('That image size is too large for a safe browser export. Choose smaller dimensions.');
+   const canvas=document.createElement('canvas');canvas.width=output.width;canvas.height=output.height;
+   const ctx=canvas.getContext('2d');if(!ctx)throw new Error('Canvas is not supported in this browser.');
+   ctx.save();
+   if($('formatSelect').value==='image/jpeg'){ctx.fillStyle='#fff';ctx.fillRect(0,0,output.width,output.height);}
+   ctx.filter=`brightness(${$('brightness').value}%) contrast(${$('contrast').value}%) saturate(${$('saturation').value}%) grayscale(${$('grayscale').value}%)`;
+   ctx.translate(output.width/2,output.height/2);ctx.rotate(rotation*Math.PI/180);ctx.scale(flipX,flipY);
+   ctx.drawImage(sourceImage,-baseWidth/2,-baseHeight/2,baseWidth,baseHeight);ctx.restore();
+   return {canvas,output};
+ }
+ function encodeCanvas(canvas,type,quality){
+   return new Promise((resolve,reject)=>canvas.toBlob(blob=>blob?resolve(blob):reject(new Error('The browser could not encode this image.')),type,quality));
+ }
+ function sizeTargetBytes(){
+   const value=Number($('targetSize').value),unit=$('targetUnit').value;
+   if(!Number.isFinite(value)||value<=0)return 0;
+   return Math.round(value*(unit==='MB'?1048576:1024));
+ }
+ function qualityCandidates(type){
+   return type==='image/png'?[undefined]:[0.25,0.35,0.45,0.55,0.65,0.75,0.85,0.9,0.92,0.94,0.95,0.96,0.97,0.98,0.99,1];
+ }
+ async function findEncodedResult(baseWidth,baseHeight,type,target,mode){
+   const {canvas,output}=createEditCanvasForSize(baseWidth,baseHeight,type);
+   const candidates=qualityCandidates(type),results=[];
+   for(const quality of candidates)results.push({blob:await encodeCanvas(canvas,type,quality),quality});
+   const valid=results.filter(result=>result.blob.type===type);
+   if(!valid.length)throw new Error(`The browser returned an unsupported format (${results[0].blob.type||'unknown'}).`);
+   const chosen=mode==='minimum'?valid.find(result=>result.blob.size>=target)||valid[valid.length-1]:valid.reduce((best,result)=>Math.abs(result.blob.size-target)<Math.abs(best.blob.size-target)?result:best,valid[0]);
+   return {...chosen,output};
+ }
+ function createEditCanvasForSize(baseWidth,baseHeight,type){
+   const output={baseWidth,baseHeight,width:rotation%180!==0?baseHeight:baseWidth,height:rotation%180!==0?baseWidth:baseHeight};
+   if(output.width*output.height>100000000)throw new Error('That image size is too large for a safe browser export. Choose smaller dimensions.');
+   const canvas=document.createElement('canvas');canvas.width=output.width;canvas.height=output.height;
+   const ctx=canvas.getContext('2d');if(!ctx)throw new Error('Canvas is not supported in this browser.');
+   ctx.save();
+   if(type==='image/jpeg'){ctx.fillStyle='#fff';ctx.fillRect(0,0,output.width,output.height);}
+   ctx.filter=`brightness(${$('brightness').value}%) contrast(${$('contrast').value}%) saturate(${$('saturation').value}%) grayscale(${$('grayscale').value}%)`;
+   ctx.translate(output.width/2,output.height/2);ctx.rotate(rotation*Math.PI/180);ctx.scale(flipX,flipY);
+   ctx.drawImage(sourceImage,-baseWidth/2,-baseHeight/2,baseWidth,baseHeight);ctx.restore();
+   return {canvas,output};
+ }
+ $('pixelModeBtn').addEventListener('click',()=>setMode(false));
+ $('sizeModeBtn').addEventListener('click',()=>setMode(true));
+ document.querySelectorAll('.size-options button').forEach(button=>button.addEventListener('click',()=>{$('targetSize').value=button.dataset.size;$('targetUnit').value=button.dataset.unit;}));
+ $('increaseSizeBtn').addEventListener('click',async()=>{
+   if(!sourceImage)return;
+   const target=sizeTargetBytes(),type=$('sizeFormat').value,mode=$('sizeMatchMode').value;
+   if(!target){$('sizeResult').textContent='Enter a valid target size greater than zero.';return;}
+   clearSizeResult();$('increaseSizeBtn').disabled=true;$('sizeResult').textContent='Encoding and measuring locally…';
+   try{
+     let base=dimensions(),result=await findEncodedResult(base.baseWidth,base.baseHeight,type,target,mode),scale=1;
+     if(mode==='minimum'&&result.blob.size<target&&$('allowUpscale').checked){
+       while(result.blob.size<target&&scale<4){
+         scale=Math.min(4,scale*1.35);
+         const width=Math.min(12000,Math.round(base.baseWidth*scale)),height=Math.min(12000,Math.round(base.baseHeight*scale));
+         result=await findEncodedResult(width,height,type,target,mode);
+         if(width*height>=100000000)break;
+       }
+     }
+     processedSizeBlob=result.blob;processedSizeUrl=URL.createObjectURL(result.blob);
+     previewImg.src=processedSizeUrl;previewImg.dataset.processed='true';previewImg.style.transform='none';previewImg.style.filter='none';
+     $('sizeDownloadBtn').disabled=false;
+     const reached=result.blob.size>=target,format=result.blob.type.split('/')[1].toUpperCase();
+     const limitation=!reached&&type==='image/png'?' PNG quality is not adjustable; allow upscaling or choose JPEG/WebP.':'';
+     $('sizeResult').innerHTML=`Actual output: <strong>${formatBytes(result.blob.size)}</strong> (${result.blob.size.toLocaleString()} bytes) · ${format} · ${result.output.width} × ${result.output.height} px · ${reached?'Target reached':'Target not reachable at current dimensions/quality'}.${limitation}`;
+     $('status').textContent=reached?'Measured target reached locally.':'Closest valid output created; increase quality or allow upscaling to try a larger file.';
+   }catch(error){$('sizeResult').textContent=error.message||'Size processing failed.';$('status').textContent=error.message||'Size processing failed.';}
+   finally{$('increaseSizeBtn').disabled=false;}
+ });
+ $('sizeDownloadBtn').addEventListener('click',()=>{
+   if(!processedSizeBlob)return;
+   const type=processedSizeBlob.type,ext=type==='image/jpeg'?'jpg':type==='image/webp'?'webp':'png',target=$('targetSize').value+$('targetUnit').value;
+   const url=processedSizeUrl,a=document.createElement('a');a.href=url;a.download=`editvala-${target.toLowerCase()}.${ext}`;document.body.appendChild(a);a.click();a.remove();
+ });
+ $('downloadBtn').addEventListener('click',()=>{
+   if(!sourceImage)return;
+   let output,canvas;
+   try{({canvas,output}=createEditCanvas(dimensions().baseWidth,dimensions().baseHeight));}catch(error){$('status').textContent=error.message;return;}
+   const type=$('formatSelect').value,quality=Number($('quality').value);
+   canvas.toBlob(blob=>{
+     if(!blob){$('status').textContent='Export failed. Try PNG or smaller dimensions.';return;}
+     const url=URL.createObjectURL(blob),a=document.createElement('a');
+     const ext=type==='image/jpeg'?'jpg':type==='image/webp'?'webp':'png';a.href=url;a.download=`editvala-edited.${ext}`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);
+     $('status').textContent=`Export ready · ${output.width} × ${output.height} px · ${formatBytes(blob.size)}`;
+   },type,quality);
+ });
+ $('resetBtn').disabled=true;
+})();
+</script>
+</body>
+</html>

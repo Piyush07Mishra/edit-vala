@@ -19,7 +19,7 @@ EditVala is a privacy-first browser image resizer and editor. Images are process
 
 ## File-size mode
 
-The **Increase File Size** workflow measures the actual encoded `Blob.size`; it does not rename files or append fake bytes.
+The **Edit Image Size** workflow measures the actual encoded `Blob.size` and helps adjust an image to meet a target size where technically possible; it does not rename files or append fake bytes.
 
 - `1 KB = 1,024 bytes`
 - `1 MB = 1,048,576 bytes`

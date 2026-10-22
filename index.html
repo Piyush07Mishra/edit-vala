@@ -45,12 +45,12 @@
       <div class="panel-body">
         <div class="mode-switch" role="tablist" aria-label="Editing mode">
           <button id="pixelModeBtn" class="active" type="button" role="tab" aria-selected="true">Resize by Pixels</button>
-          <button id="sizeModeBtn" type="button" role="tab" aria-selected="false">Increase File Size</button>
+          <button id="sizeModeBtn" type="button" role="tab" aria-selected="false">Edit Image Size</button>
         </div>
         <section class="section size-workflow hidden" id="sizeWorkflow">
-          <h3 class="section-title"><span class="num">1</span> File size target</h3>
+          <h3 class="section-title"><span class="num">1</span> Target file size</h3>
           <div class="fieldrow">
-            <div class="field"><label for="targetSize">Target size</label><input id="targetSize" type="number" min="1" max="1024" step="1" value="100" disabled></div>
+            <div class="field"><label for="targetSize">Target File Size</label><input id="targetSize" type="number" min="1" max="1024" step="1" value="100" disabled></div>
             <div class="field"><label for="targetUnit">Unit</label><select id="targetUnit" disabled><option value="KB">KB (1,024 bytes)</option><option value="MB">MB (1,048,576 bytes)</option></select></div>
           </div>
           <div class="size-options" aria-label="Common target sizes">
@@ -60,8 +60,8 @@
           <div class="field"><label for="sizeFormat">Output format</label><select id="sizeFormat" disabled><option value="image/jpeg">JPEG</option><option value="image/png">PNG</option><option value="image/webp">WebP</option></select></div>
           <div class="size-summary"><div>Current file size<strong id="currentSize">—</strong></div><div>Original pixels<strong id="originalSizePixels">—</strong></div></div>
           <label class="checkline"><input type="checkbox" id="allowUpscale" disabled> Allow limited upscaling if target cannot be reached</label>
-          <div class="hint">File size is measured from the encoded image bytes. PNG quality is not adjustable; no fake padding is added.</div>
-          <button class="download" id="increaseSizeBtn" type="button" disabled>Increase Size</button>
+          <div class="hint">Adjust an image's file size to meet a target where technically possible. File size is measured from the encoded image bytes. PNG quality is not adjustable; no fake padding is added.</div>
+          <button class="download" id="increaseSizeBtn" type="button" disabled>Edit Image Size</button>
           <div class="size-result" id="sizeResult">Measured output will appear here.</div>
           <button class="secondary reset" id="sizeDownloadBtn" type="button" disabled>Download Image</button>
         </section>
@@ -188,7 +188,7 @@
    $('pixelModeBtn').setAttribute('aria-selected',String(!sizeMode));$('sizeModeBtn').setAttribute('aria-selected',String(sizeMode));
    $('sizeWorkflow').classList.toggle('hidden',!sizeMode);
    ['pixelDimensionsSection','adjustmentsSection','exportSection'].forEach(id=>$(id).classList.toggle('hidden',sizeMode));
-   if(sizeMode&&sourceImage){$('sizeResult').textContent='Choose a target and click Increase Size.';}
+   if(sizeMode&&sourceImage){$('sizeResult').textContent='Choose a target and click Edit Image Size.';}
    if(!sizeMode&&sourceImage)updatePreview();
  }
  function updateDimensionsHint(){if(!sourceImage)return;const output=dimensions();$('dimensionHint').textContent=`Original: ${originalWidth} × ${originalHeight} px · Output: ${output.width} × ${output.height} px`;}
